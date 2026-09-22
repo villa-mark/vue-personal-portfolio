@@ -3,36 +3,52 @@ import type { ExperienceEntry } from './types'
 export const experience: ExperienceEntry[] = [
   {
     id: 'exp-current',
-    company: '[COMPANY NAME]',
-    position: '[JOB TITLE]',
+    company: 'Litecloud Corporation',
+    position: 'Software Developer',
     employmentType: 'Full-time',
-    location: '[LOCATION]',
-    startDate: '[START DATE]',
+    location: 'Sanson St. Lahug, Cebu City',
+    startDate: 'August 15, 2024',
     endDate: 'Present',
     description:
-      '[PROJECT DESCRIPTION] Building and maintaining full-stack web applications as part of a small product team.',
+      'Develop and maintain CERPSYS, a web-based enterprise system used to support and automate business operations across multiple departments.',
     responsibilities: [
-      'Designed and implemented REST APIs consumed by internal dashboards',
-      'Built responsive, accessible user interfaces from design specs',
-      'Collaborated with teammates on code review and technical planning'
+      'Develop and maintain enterprise modules for Payroll, Cash Advance, PEMASYS, Contributions, Payments, Funds, Vicinage, Voucher, Accounts Payable, and other business processes',
+      'Build and improve frontend functionality, user interfaces, and interactive features using JavaScript, TypeScript, Vue, Svelte, and jQuery',
+      'Develop and maintain backend functionality and APIs using Hono, SQL, and MariaDB',
+      'Create and modify database queries, stored procedures, and data-related functionality to support application requirements',
+      'Investigate, reproduce, and fix issues across frontend, backend, and database layers',
+      'Perform functional testing by validating application behavior and verifying data changes in the database',
+      'Maintain and improve existing legacy code while implementing new features and resolving reported issues'
     ],
-    achievements: ['[ACHIEVEMENT] Shipped a full internal module from spec to production'],
-    technologies: ['Vue', 'TypeScript', 'Hono', 'MariaDB']
+    achievements: [
+      'Contributed to the development and maintenance of multiple enterprise modules used in day-to-day business operations',
+      'Worked across frontend, backend, and database layers to investigate and resolve application issues'
+    ],
+    technologies: [
+      'JavaScript',
+      'TypeScript',
+      'Svelte',
+      'jQuery',
+      'Hono',
+      'SQL',
+      'MariaDB'
+    ]
   },
+
   {
     id: 'exp-previous',
-    company: '[COMPANY NAME]',
-    position: '[JOB TITLE]',
-    employmentType: 'Internship',
-    location: '[LOCATION]',
-    startDate: '[START DATE]',
-    endDate: '[END DATE]',
-    description: '[PROJECT DESCRIPTION] Supported a development team on internal tooling and bug fixes.',
+    company: 'Pocari Sweat',
+    position: 'Dicer',
+    employmentType: 'Part-time',
+    location: 'Mandaue, Cebu',
+    startDate: '2024',
+    endDate: '2025',
+    description: 'Work as a helper | Dicer',
     responsibilities: [
-      'Fixed reported bugs across frontend and backend codebases',
-      'Wrote documentation for internal developer tools'
+      'Prepare and load pocari products',
+      'Help in distribution to the runner'
     ],
     achievements: [],
-    technologies: ['JavaScript', 'HTML', 'CSS']
+    technologies: []
   }
 ]
