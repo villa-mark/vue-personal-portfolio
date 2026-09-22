@@ -1,0 +1,206 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------- */
+/* Design tokens — "Developer Workspace" theme                            */
+/* Dark is the intentional default; light is a distinct, equally-polished */
+/* palette, not a simple inversion.                                       */
+/* ---------------------------------------------------------------------- */
+
+:root {
+  --font-sans:
+    ui-sans-serif, Inter, 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-card: 18px;
+  --radius-btn: 9px;
+
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.16), 0 8px 24px -12px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.2), 0 16px 40px -16px rgba(0, 0, 0, 0.45);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 150ms;
+  --dur-med: 260ms;
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #0a0d12;
+  --color-bg-elevated: #10141b;
+  --color-surface: #12161e;
+  --color-surface-hover: #171c26;
+  --color-border: rgba(230, 237, 243, 0.09);
+  --color-border-strong: rgba(230, 237, 243, 0.16);
+  --color-text: #e7edf3;
+  --color-text-muted: #8d98a6;
+  --color-text-faint: #5c6572;
+
+  --color-accent: #22d3c9;
+  --color-accent-strong: #4fe8dd;
+  --color-accent-soft: rgba(34, 211, 201, 0.12);
+  --color-status-live: #34d399;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg: #f6f7f9;
+  --color-bg-elevated: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f0f2f5;
+  --color-border: rgba(15, 23, 32, 0.09);
+  --color-border-strong: rgba(15, 23, 32, 0.16);
+  --color-text: #10161d;
+  --color-text-muted: #566072;
+  --color-text-faint: #8a93a3;
+
+  --color-accent: #0f9c92;
+  --color-accent-strong: #0c7d75;
+  --color-accent-soft: rgba(15, 156, 146, 0.1);
+  --color-status-live: #059669;
+
+  --shadow-soft: 0 1px 2px rgba(16, 22, 29, 0.05), 0 8px 24px -14px rgba(16, 22, 29, 0.16);
+  --shadow-lift: 0 2px 6px rgba(16, 22, 29, 0.06), 0 16px 40px -18px rgba(16, 22, 29, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color var(--dur-med) var(--ease-out),
+    color var(--dur-med) var(--ease-out);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+
+a {
+  color: inherit;
+}
+
+#app > .app-shell > main {
+  flex: 1;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #05100f;
+}
+
+/* Visible, non-color-dependent focus ring for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.container-shell {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+@media (max-width: 640px) {
+  .container-shell {
+    padding-inline: var(--space-4);
+  }
+}
+
+.section-py {
+  padding-block: var(--space-24);
+}
+
+@media (max-width: 768px) {
+  .section-py {
+    padding-block: var(--space-16);
+  }
+}
+
+.card-surface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Respect reduced-motion preference everywhere */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Base fade/slide-up utility used by the reveal-on-scroll directive */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
