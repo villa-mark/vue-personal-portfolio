@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { profile } from '@/data/portfolio'
+import { formatExperienceDuration } from '@/utils/experience'
 </script>
 
 <template>
@@ -22,7 +23,7 @@ import { profile } from '@/data/portfolio'
       </div>
       <div>
         <dt>Experience</dt>
-        <dd>{{ profile.yearsExperience }}+ years</dd>
+        <dd>{{ formatExperienceDuration(profile.experienceStartDate) }}</dd>
       </div>
       <div>
         <dt>Currently</dt>

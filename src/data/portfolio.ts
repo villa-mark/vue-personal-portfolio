@@ -1,4 +1,5 @@
 import type { Profile, QuickStat, PhilosophyStep } from './types'
+import { formatExperienceYearsShort } from '@/utils/experience'
 
 /**
  * Single source of truth for the site owner's identity.
@@ -14,14 +15,14 @@ export const profile: Profile = {
   availability: 'AVAILABLE FOR OPPORTUNITIES',
   focus: 'Full-Stack Web Development',
   currentActivity: 'Building and improving production web applications',
-  yearsExperience: 2,
+  experienceStartDate: '2024-08-01',
   github: 'https://github.com/villa-mark',
   linkedin: 'https://www.linkedin.com/in/mark-anthony-villahermosa-0ba3522b1/',
   resume: '/resume.pdf'
 }
 
 export const quickStats: QuickStat[] = [
-  { label: 'Years Experience', value: `${profile.yearsExperience}+` },
+  { label: 'Years Experience', value: formatExperienceYearsShort(profile.experienceStartDate) },
   { label: 'Projects', value: '10+' },
   { label: 'Technologies', value: '10+' },
   { label: 'Repositories', value: '5+' }

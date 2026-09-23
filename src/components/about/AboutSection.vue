@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { profile } from '@/data/portfolio'
+import { formatExperienceDuration } from '@/utils/experience'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 </script>
 
@@ -14,7 +15,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
         <dl class="about-list">
           <div>
             <dt>Experience</dt>
-            <dd>{{ profile.yearsExperience }}+ years</dd>
+            <dd>{{ formatExperienceDuration(profile.experienceStartDate) }}</dd>
           </div>
           <div>
             <dt>Location</dt>

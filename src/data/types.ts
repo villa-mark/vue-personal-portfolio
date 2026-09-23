@@ -8,7 +8,7 @@ export interface Profile {
   availability: 'AVAILABLE FOR OPPORTUNITIES' | 'NOT CURRENTLY AVAILABLE'
   focus: string
   currentActivity: string
-  yearsExperience: number
+  experienceStartDate: string
   github: string
   linkedin: string
   resume: string
