@@ -11,7 +11,7 @@ export const education: EducationEntry[] = [
     location: 'Purok 2, San Jose, Cebu City',
     description: 'Focused on software engineering fundamentals, databases, and web development.',
     achievements: [],
-    image: './../../public/images/schools_logo/cite.jpeg'
+    image: '/images/schools_logo/cite.jpeg'
   },
   {
     id: 'edu-secondary',
@@ -23,7 +23,7 @@ export const education: EducationEntry[] = [
     location: 'Manlapay, Dalaguete, Cebu',
     description: '',
     achievements: [],
-    image: './../../public/images/schools_logo/manlapay.jpeg'
+    image: '/images/schools_logo/manlapay.jpeg'
   },
   {
     id: 'edu-primary',
@@ -35,6 +35,6 @@ export const education: EducationEntry[] = [
     location: 'Maloray, Dalaguete, Cebu',
     description: '',
     achievements: [],
-    image: './../../public/images/schools_logo/maloray.jpeg'
+    image: '/images/schools_logo/maloray.jpeg'
   }
 ]
