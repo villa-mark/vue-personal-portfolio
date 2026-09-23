@@ -81,6 +81,7 @@ export interface EducationEntry {
   location: string
   description: string
   achievements: string[]
+  image: string | null
 }
 
 export interface Certification {

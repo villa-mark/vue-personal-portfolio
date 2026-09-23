@@ -166,4 +166,8 @@ import DeveloperStatusCard from "@/components/hero/DeveloperStatusCard.vue";
   aspect-ratio: 1 / 1;
   box-shadow: var(--shadow-lift);
 }
+.hero-avatar :deep(img) {
+  object-fit: cover;
+  object-position: 30% 30%;
+}
 </style>

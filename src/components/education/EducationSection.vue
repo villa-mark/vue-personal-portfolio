@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { GraduationCap } from '@lucide/vue'
 import { education } from '@/data/education'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
+import ImageWithFallback from '@/components/ui/ImageWithFallback.vue'
 </script>
 
 <template>
@@ -13,7 +13,13 @@ import EmptyState from '@/components/ui/EmptyState.vue'
 
     <div v-else class="education-list">
       <article v-for="entry in education" :key="entry.id" v-reveal class="education-card card-surface">
-        <span class="education-icon" aria-hidden="true"><GraduationCap :size="18" /></span>
+        <ImageWithFallback
+          :src="entry.image ?? ''"
+          :alt="`${entry.institution} logo`"
+          fallback-label="SCHOOL"
+          rounded="square"
+          class="education-image"
+        />
         <div class="education-content">
           <div class="education-head">
             <div>
@@ -44,17 +50,18 @@ import EmptyState from '@/components/ui/EmptyState.vue'
   gap: var(--space-4);
   padding: var(--space-6);
 }
-.education-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+.education-image {
+  width: 88px;
+  height: 88px;
   flex-shrink: 0;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  color: var(--color-accent);
-  background: var(--color-accent-soft);
+}
+.education-image :deep(svg) {
+  width: 32px;
+  height: 32px;
+}
+.education-image :deep(span) {
+  display: none;
 }
 .education-content {
   flex: 1;

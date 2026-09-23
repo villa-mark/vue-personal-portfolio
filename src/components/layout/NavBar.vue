@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { Menu, X } from '@lucide/vue'
 import { navItems } from '@/data/nav'
 import { profile } from '@/data/portfolio'
@@ -10,10 +10,39 @@ import BrandIcon from '@/components/ui/BrandIcon.vue'
 const { activeId } = useScrollSpy(navItems.map((item) => item.id))
 
 const mobileOpen = ref(false)
+const navRef = ref<HTMLElement | null>(null)
+const indicatorStyle = ref({ left: '0px', width: '0px', opacity: 0 })
 
 function closeMobile() {
   mobileOpen.value = false
 }
+
+function updateIndicator() {
+  const nav = navRef.value
+  const activeLink = nav?.querySelector<HTMLElement>('.nav-link.is-active')
+  if (!nav || !activeLink) {
+    indicatorStyle.value = { ...indicatorStyle.value, opacity: 0 }
+    return
+  }
+  const navRect = nav.getBoundingClientRect()
+  const linkRect = activeLink.getBoundingClientRect()
+  const inset = 12
+  indicatorStyle.value = {
+    left: `${linkRect.left - navRect.left + inset}px`,
+    width: `${linkRect.width - inset * 2}px`,
+    opacity: 1
+  }
+}
+
+watch(activeId, () => nextTick(updateIndicator))
+
+onMounted(() => {
+  nextTick(updateIndicator)
+  window.addEventListener('resize', updateIndicator)
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateIndicator)
+})
 </script>
 
 <template>
@@ -23,7 +52,7 @@ function closeMobile() {
         <span class="font-mono">~/</span>{{ profile.name === '[NAME]' ? 'portfolio' : profile.name.toLowerCase() }}
       </a>
 
-      <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+      <nav ref="navRef" class="nav-links hidden items-center gap-1 md:flex" aria-label="Primary">
         <a
           v-for="item in navItems"
           :key="item.id"
@@ -33,6 +62,7 @@ function closeMobile() {
         >
           {{ item.label }}
         </a>
+        <span class="nav-indicator" aria-hidden="true" :style="indicatorStyle" />
       </nav>
 
       <div class="hidden items-center gap-2 md:flex">
@@ -105,6 +135,10 @@ function closeMobile() {
   color: var(--color-accent);
 }
 
+.nav-links {
+  position: relative;
+}
+
 .nav-link {
   padding: 8px 12px;
   border-radius: var(--radius-sm);
@@ -121,15 +155,18 @@ function closeMobile() {
 .nav-link.is-active {
   color: var(--color-accent);
 }
-.nav-link.is-active::after {
-  content: '';
+
+.nav-indicator {
   position: absolute;
-  left: 12px;
-  right: 12px;
   bottom: 1px;
   height: 2px;
   border-radius: 2px;
   background: var(--color-accent);
+  pointer-events: none;
+  transition:
+    left var(--dur-med) var(--ease-out),
+    width var(--dur-med) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
 }
 
 .icon-link {
