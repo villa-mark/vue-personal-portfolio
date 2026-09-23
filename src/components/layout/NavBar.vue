@@ -17,6 +17,14 @@ function closeMobile() {
   mobileOpen.value = false
 }
 
+watch(mobileOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : ''
+})
+
+onBeforeUnmount(() => {
+  document.body.style.overflow = ''
+})
+
 function updateIndicator() {
   const nav = navRef.value
   const activeLink = nav?.querySelector<HTMLElement>('.nav-link.is-active')
@@ -77,7 +85,7 @@ onBeforeUnmount(() => {
 
       <button
         type="button"
-        class="icon-link md:hidden"
+        class="icon-link mobile-toggle md:hidden"
         :aria-expanded="mobileOpen"
         aria-label="Toggle menu"
         @click="mobileOpen = !mobileOpen"
@@ -87,29 +95,37 @@ onBeforeUnmount(() => {
       </button>
     </div>
 
-    <Transition name="mobile-menu">
-      <nav v-if="mobileOpen" class="mobile-nav" aria-label="Mobile primary">
-        <a
-          v-for="item in navItems"
-          :key="item.id"
-          :href="item.href"
-          class="mobile-nav-link"
-          :class="{ 'is-active': activeId === item.id }"
-          @click="closeMobile"
-        >
-          {{ item.label }}
-        </a>
-        <div class="mobile-nav-footer">
-          <a :href="profile.github" target="_blank" rel="noreferrer noopener" class="icon-link" aria-label="GitHub profile">
-            <BrandIcon name="github" :size="18" />
-          </a>
-          <a :href="profile.linkedin" target="_blank" rel="noreferrer noopener" class="icon-link" aria-label="LinkedIn profile">
-            <BrandIcon name="linkedin" :size="18" />
-          </a>
-          <ThemeToggle />
-        </div>
-      </nav>
-    </Transition>
+    <Teleport to="body">
+      <Transition name="mobile-backdrop">
+        <div v-if="mobileOpen" class="mobile-backdrop" @click="closeMobile" />
+      </Transition>
+
+      <Transition name="mobile-drawer">
+        <nav v-if="mobileOpen" class="mobile-nav" aria-label="Mobile primary">
+          <div class="mobile-nav-links">
+            <a
+              v-for="item in navItems"
+              :key="item.id"
+              :href="item.href"
+              class="mobile-nav-link"
+              :class="{ 'is-active': activeId === item.id }"
+              @click="closeMobile"
+            >
+              {{ item.label }}
+            </a>
+          </div>
+          <div class="mobile-nav-footer">
+            <a :href="profile.github" target="_blank" rel="noreferrer noopener" class="icon-link" aria-label="GitHub profile">
+              <BrandIcon name="github" :size="18" />
+            </a>
+            <a :href="profile.linkedin" target="_blank" rel="noreferrer noopener" class="icon-link" aria-label="LinkedIn profile">
+              <BrandIcon name="linkedin" :size="18" />
+            </a>
+            <ThemeToggle />
+          </div>
+        </nav>
+      </Transition>
+    </Teleport>
   </header>
 </template>
 
@@ -117,7 +133,7 @@ onBeforeUnmount(() => {
 .nav-shell {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
   border-bottom: 1px solid var(--color-border);
   background: color-mix(in srgb, var(--color-bg) 78%, transparent);
   backdrop-filter: blur(14px);
@@ -137,6 +153,12 @@ onBeforeUnmount(() => {
 
 .nav-links {
   position: relative;
+  display: none;
+}
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
 }
 
 .nav-link {
@@ -189,18 +211,51 @@ onBeforeUnmount(() => {
   border-color: var(--color-border);
 }
 
+.mobile-toggle {
+  display: inline-flex;
+  position: relative;
+  z-index: 90;
+}
+@media (min-width: 768px) {
+  .mobile-toggle {
+    display: none;
+  }
+}
+
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(4, 8, 12, 0.55);
+  backdrop-filter: blur(2px);
+}
+
 .mobile-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  padding: var(--space-6);
+  background: var(--color-bg-elevated);
+  border-left: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lift);
+  overflow-y: auto;
+}
+.mobile-nav-links {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: var(--space-3) var(--space-6) var(--space-6);
-  border-top: 1px solid var(--color-border);
-  background: var(--color-bg);
+  margin-top: var(--space-16);
 }
 .mobile-nav-link {
   padding: 12px 8px;
   border-radius: var(--radius-sm);
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 500;
   color: var(--color-text-muted);
   text-decoration: none;
 }
@@ -211,20 +266,26 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: var(--space-3);
+  margin-top: auto;
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-border);
 }
 
-.mobile-menu-enter-active,
-.mobile-menu-leave-active {
-  transition:
-    opacity var(--dur-fast) var(--ease-out),
-    transform var(--dur-fast) var(--ease-out);
+.mobile-backdrop-enter-active,
+.mobile-backdrop-leave-active {
+  transition: opacity var(--dur-med) var(--ease-out);
 }
-.mobile-menu-enter-from,
-.mobile-menu-leave-to {
+.mobile-backdrop-enter-from,
+.mobile-backdrop-leave-to {
   opacity: 0;
-  transform: translateY(-8px);
+}
+
+.mobile-drawer-enter-active,
+.mobile-drawer-leave-active {
+  transition: transform var(--dur-med) var(--ease-out);
+}
+.mobile-drawer-enter-from,
+.mobile-drawer-leave-to {
+  transform: translateX(100%);
 }
 </style>
